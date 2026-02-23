@@ -36,6 +36,22 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Debug secrets availability
+        env:
+          HAS_SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID != '' }}
+          HAS_SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID != '' }}
+          HAS_ANTHROPIC_KEY: ${{ secrets.ANTHROPIC_API_KEY != '' }}
+          HAS_GOOGLE_EMAIL: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL != '' }}
+          HAS_GOOGLE_KEY: ${{ secrets.GOOGLE_PRIVATE_KEY != '' }}
+          HAS_SLACK_TOKEN: ${{ secrets.SLACK_BOT_TOKEN != '' }}
+        run: |
+          echo "SPREADSHEET_ID set: $HAS_SPREADSHEET_ID"
+          echo "SLACK_CHANNEL_ID set: $HAS_SLACK_CHANNEL_ID"
+          echo "ANTHROPIC_API_KEY set: $HAS_ANTHROPIC_KEY"
+          echo "GOOGLE_SERVICE_ACCOUNT_EMAIL set: $HAS_GOOGLE_EMAIL"
+          echo "GOOGLE_PRIVATE_KEY set: $HAS_GOOGLE_KEY"
+          echo "SLACK_BOT_TOKEN set: $HAS_SLACK_TOKEN"
+
       - name: Run KPI Review Bot
         env:
           GOOGLE_SERVICE_ACCOUNT_EMAIL: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL }}
